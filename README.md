@@ -1,5 +1,7 @@
 # confScript
 
+[![Downloads](https://pepy.tech/badge/confscript/month)](https://pypi.org/project/confscript)
+
 don't think it is another \*script language!!
 
 It can do a lot..
