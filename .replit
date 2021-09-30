@@ -1,0 +1,2 @@
+language = "bash"
+run = "pip install . && python betatest.py" #use pip install . because python setup.py install doesn't work..

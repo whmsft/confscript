@@ -5,7 +5,7 @@ with open("README.md", "r") as file:
 
 setup(
 	name='confscript',
-	version='1.0',    
+	version='1.5',    
 	description='''A configuration definition language''',
 	long_description=long_description,
 	long_description_content_type="text/markdown",

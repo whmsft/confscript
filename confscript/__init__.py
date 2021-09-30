@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 
 def read(data):
 	def parsedata(thisdata):
@@ -9,7 +10,7 @@ def read(data):
 				pass
 			else:
 				var = i.split(':')[0][::-1]
-				con = i.split(':')[1]
+				con = i.split(':')[1] if len(i.split(':')) == 2 else ':'.join(i.split(':')[1:])
 				for char in var:
 					if char.isspace():
 						var = var[1:]
@@ -20,6 +21,13 @@ def read(data):
 						con = con[1:]
 					else:
 						break
+				con = con[::-1]
+				for char in con:
+					if char.isspace():
+						con = con[1:]
+					else:
+						break
+				con = con[::-1]
 				if con == "True":
 					readydata[var[::-1]] = True
 				elif con == "False":
@@ -37,7 +45,7 @@ def read(data):
 	data = data.split('---\n')
 	for i in data:
 		for x in i.split('\n'):
-			if re.match(r'== ([A-Z]|[a-z])\w+ ==', x):
+			if re.match(r'== *.* ==', x):
 				readdata[x[3:-3]] = parsedata(i[i.find(x)+len(x):])
 	return readdata
 	
@@ -55,7 +63,7 @@ def dump(data):
 			value = thisdata[i]
 			if str(type(value)) == "<class 'list'>":
 				value = ",".join(value)
-			newdata += "{}:{}\n".format(i,value)
+			newdata += "{}: {}\n".format(i,value)
 		return str(newdata)
 	__data__ = ""
 	length = len(data)
