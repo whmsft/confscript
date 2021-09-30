@@ -28,10 +28,12 @@ def read(data):
 					else:
 						break
 				con = con[::-1]
-				if con == "True":
+				if con.lower() == "true":
 					readydata[var[::-1]] = True
-				elif con == "False":
+				elif con.lower() == "false":
 					readydata[var[::-1]] = False
+        elif con.lower() == "none":
+          readydata[var[::-1]] = None
 				else:
 					try:
 						readydata[var[::-1]] = int(con)
