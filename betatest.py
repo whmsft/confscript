@@ -1,7 +1,6 @@
 import confscript
 data = """
 == Py ==
-init: main
-main
+init: None
 """
 confscript.read(data)

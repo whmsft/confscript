@@ -1,47 +1,58 @@
 import os
 import re
 import sys
+import random
 
 def read(data):
 	def parsedata(thisdata):
-		readydata = {}
+		readydata = {} if ':' in thisdata.split('\n') else [] 
 		for i in thisdata.split('\n'):
 			if i == "" or i == '\n' or i.isspace():
 				pass
 			else:
-				var = i.split(':')[0][::-1]
-				con = i.split(':')[1] if len(i.split(':')) == 2 else ':'.join(i.split(':')[1:])
-				for char in var:
-					if char.isspace():
-						var = var[1:]
-					else:
-						break
-				for char in con:
-					if char.isspace():
-						con = con[1:]
-					else:
-						break
-				con = con[::-1]
-				for char in con:
-					if char.isspace():
-						con = con[1:]
-					else:
-						break
-				con = con[::-1]
-				if con.lower() == "true":
-					readydata[var[::-1]] = True
-				elif con.lower() == "false":
-					readydata[var[::-1]] = False
-        elif con.lower() == "none":
-          readydata[var[::-1]] = None
-				else:
-					try:
-						readydata[var[::-1]] = int(con)
-					except ValueError:
-						if ',' in con:
-							readydata[var[::-1]] = con.split(',')
+				if ':' in i:
+					i = i.replace('!:', '$COLON$')
+					var = i.split(':')[0][::-1]
+					con = i.split(':')[1] if len(i.split(':')) == 2 else ':'.join(i.split(':')[1:])
+					for char in var:
+						if char.isspace():
+							var = var[1:]
 						else:
-							readydata[var[::-1]] = con
+							break
+					for char in con:
+						if char.isspace():
+							con = con[1:]
+						else:
+							break
+					var = var.replace('$NOLOC$', ':')
+					con = con.replace('$COLON$', ':')
+					con = con[::-1]
+					for char in con:
+						if char.isspace():
+							con = con[1:]
+						else:
+							break
+					con = con[::-1]
+					if con.lower() == "true":
+						readydata[var[::-1]] = True
+					elif con.lower() == "false":
+						readydata[var[::-1]] = False
+					elif con.lower() == "none":
+						readydata[var[::-1]] = None
+					else:
+						try:
+							readydata[var[::-1]] = int(con)
+						except ValueError:
+							if ',' in con:
+								readydata[var[::-1]] = con.split(',')
+							else:
+								readydata[var[::-1]] = con
+				else:
+					con = i
+					if ',' in con:
+						readydata.append(con.split(','))
+					else:
+						readydata.append(con)
 		return readydata
 	readdata = {}
 	data = data.split('---\n')
